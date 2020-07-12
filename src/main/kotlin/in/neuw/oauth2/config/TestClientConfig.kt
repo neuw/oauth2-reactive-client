@@ -27,38 +27,10 @@ class TestClientConfig {
 
     private val testWebClientLogger:Logger = LoggerFactory.getLogger("TEST_WEB_CLIENT")
 
-    /*@Bean
-    fun authorizedClientManager(
-            clientRegistrationRepository: ReactiveClientRegistrationRepository?,
-            authorizedClientService: ReactiveOAuth2AuthorizedClientService?): ReactiveOAuth2AuthorizedClientManager? {
-        val authorizedClientProvider: ReactiveOAuth2AuthorizedClientProvider = ReactiveOAuth2AuthorizedClientProviderBuilder.builder()
-                .clientCredentials()
-                .build()
-        val authorizedClientManager = AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
-                clientRegistrationRepository, authorizedClientService)
-        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider)
-        return authorizedClientManager
-    }
-
-    @Bean
-    fun webClient(authorizedClientManager: ReactiveOAuth2AuthorizedClientManager?): WebClient? {
-        val oauth = ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager)
-        return WebClient.builder().filter(oauth).build()
-    }*/
-
-    /*@Bean
-    fun webClient(clientRegistrationRepo: ReactiveClientRegistrationRepository?, authorizedClientRepo: ServerOAuth2AuthorizedClientRepository?): WebClient? {
-        val filter = ServerOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepo, authorizedClientRepo)
-        return WebClient.builder()
-                .filter(filter)
-                .build()
-    }*/
-
     @Bean
     fun authorizedClientManager(
             clientRegistrationRepository: ReactiveClientRegistrationRepository?,
-            authorizedClientRepository: ServerOAuth2AuthorizedClientRepository,
-            authorizedClientService: ReactiveOAuth2AuthorizedClientService?): ReactiveOAuth2AuthorizedClientManager? {
+            authorizedClientRepository: ServerOAuth2AuthorizedClientRepository): ReactiveOAuth2AuthorizedClientManager? {
 
         val authorizedClientProvider: ReactiveOAuth2AuthorizedClientProvider = ReactiveOAuth2AuthorizedClientProviderBuilder.builder()
                 .clientCredentials()
@@ -94,7 +66,7 @@ class TestClientConfig {
 
     @Bean
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain? {
-        http.oauth2Client();
+        http.oauth2Client()
         return http.build()
     }
 
